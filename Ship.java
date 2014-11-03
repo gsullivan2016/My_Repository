@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 
 /*
@@ -7,9 +8,9 @@ import java.awt.Graphics;
  */
 public class Ship
 {
-	private int x, y;
+	private int x, y , z;
 	
-	private int radius = 30;
+	private int radius = 10;
 	
 	private Color clr;
 	
@@ -17,7 +18,7 @@ public class Ship
 	{
 		this.x = x;
 		this.y = y;
-		clr = Color.RED;
+		clr = Color.magenta;
 	}
 	
 	public int getX() { return x; }

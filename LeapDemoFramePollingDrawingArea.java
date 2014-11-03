@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -10,25 +11,28 @@ import javax.swing.JPanel;
 public class LeapDemoFramePollingDrawingArea extends JPanel
 {
 	public static int WIDTH, HEIGHT;
-	private Ship ship;
+	private ArrayList<Ship> ships = new ArrayList<Ship>();
+
 	
-	public LeapDemoFramePollingDrawingArea(int w, int h, Ship s)
+	public LeapDemoFramePollingDrawingArea(int w, int h)
 	{
 		WIDTH = w;
 		HEIGHT = h;
-		ship = s;
 		setBackground(Color.GREEN);
 	}
 	
-	
+	public void addShip(Ship s)
+	{
+		ships.add(s);
+	}
 	//this is the method that actually draws this region of screen...
 	//do any custom drawing in here for this region
 	public void paintComponent(Graphics g)
 	{
 		//always call super.paintComponent() in a JPanel subclass
 		super.paintComponent(g);
-		
-		ship.draw(g);
+		for(Ship i : ships)
+				i.draw(g);
 	}
 	
 	

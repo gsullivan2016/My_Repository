@@ -28,10 +28,9 @@ public class LeapDemoFramePolling extends JFrame
 		
 		
 		//create the ship object and then pass it off to the drawing area and the animation manager
-		ship = new Ship(300, 300);
 		
 		//note the this…the GameArea will store a reference to this object, the main JFrame
-		drawingArea = new LeapDemoFramePollingDrawingArea(600, 600, ship);		
+		drawingArea = new LeapDemoFramePollingDrawingArea(600, 600);		
 
 		
 		/*
@@ -45,13 +44,10 @@ public class LeapDemoFramePolling extends JFrame
 		* 	 last step gives you control over the speed of your animation (or other process for
 		* 	 other applications).
 		*/
-		aniManager = new AnimationManagerLeapDemoPolling(ship, this);
+		aniManager = new AnimationManagerLeapDemoPolling( drawingArea, this);
 		animationThread = new Thread(aniManager);
 		animationThread.start();
 
-		
-		
-		
 		//put the JPanel onscreen and then display this window
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());

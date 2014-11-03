@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import com.leapmotion.leap.Controller;
 import com.leapmotion.leap.Finger;
@@ -22,7 +23,8 @@ public class AnimationManagerLeapDemoPolling implements Runnable
 {
 	//This maintains the ship so that it can manipulate El Shippo based on Leap input
 	//and the main window is saved so that the manager can force a repaint of the screen
-	private Ship ship;		
+	private Ship ship;
+	private ArrayList<Ship> shipList;
 	private JFrame mainWindow;
 	
 	
@@ -38,18 +40,21 @@ public class AnimationManagerLeapDemoPolling implements Runnable
 	//timing of our animation loop).
 	private Controller leapMotionController;
 	private Frame currFrame;
+	private LeapDemoFramePollingDrawingArea drawingArea;
 	
-	
-	public AnimationManagerLeapDemoPolling( Ship s, JFrame mw )
+	public AnimationManagerLeapDemoPolling(  JPanel drawingArea, JFrame mw )
 	{
-		ship = s;
+		//ship = s;
 		mainWindow = mw;
+		this.drawingArea = (LeapDemoFramePollingDrawingArea) drawingArea;
 		leapMotionController = new Controller();
-		//if you don't specifically enable gestures, they aren't available to you
-		leapMotionController.enableGesture(Type.TYPE_SCREEN_TAP);
 	}
 	
 	
+	
+
+
+
 	/*
 	 * When you pass a Runnable object like this to a Thread constructor, the Thread object
 	 * will automatically call the run() method for you. It only calls it once; if the run()
@@ -70,6 +75,9 @@ public class AnimationManagerLeapDemoPolling implements Runnable
 		while(true)	 
 		{
 			//part of the timing structure...not Leap-related necessarily
+
+			
+
 			timeAtBeginningOfLoop = System.currentTimeMillis();
 			
 			
@@ -85,6 +93,11 @@ public class AnimationManagerLeapDemoPolling implements Runnable
 			float fingerX = fingerTip.getX();
 			float fingerY = fingerTip.getY();
 			float fingerZ = fingerTip.getZ();
+			for(Finger i : fingers)
+			{
+				Vector fingerTip2 = i.tipPosition();
+			 drawingArea.addShip(new Ship( (int)(fingerTip2.getX()), (int)(fingerTip2.getY()) ) );
+			}
 			
 			
 			
@@ -101,7 +114,7 @@ public class AnimationManagerLeapDemoPolling implements Runnable
 				//if fingerX is positive, x gets increased...else, x gets decreased
 				//dividing by 10 just scales the amount...
 				//the Leap's x-coord has a real-world unit of millimeters from the Leap's middle
-				ship.changeX((int)(fingerX/10));
+//				ship.changeX((int)(fingerX/10));
 			}
 			
 			
@@ -116,7 +129,7 @@ public class AnimationManagerLeapDemoPolling implements Runnable
 				//the up on the Leap is the positive y-axis, 
 				//but the down direction onscreen is the positive y-axis
 				//the real-world units on fingerY is millimeters above the Leap
-				ship.changeY( (int)( (185 - fingerY)/10 ) );
+/*				ship.changeY( (int)( (185 - fingerY)/10 ) );*/
 			}
 			
 			
@@ -129,7 +142,7 @@ public class AnimationManagerLeapDemoPolling implements Runnable
 			else
 			{
 				//again, modify the Leap values to suit your needs
-				ship.changeRadius((int)(fingerZ/35));
+//				ship.changeRadius((int)(fingerZ/35));
 			}
 			
 			
